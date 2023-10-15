@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+option csharp_namespace = "AuthService.Proto";
+
+package auth_service;
+
+import "google/api/annotations.proto";
+
+service Auth {
+    rpc SendCode (SendCodeRequest) returns (SendCodeResponse) {
+        option (google.api.http) = {
+            post: "/auth-service/grpc/Codes/SendCode",
+            body: "*",
+        };
+    }
+    rpc TryCode (TryCodeRequest) returns (TryCodeResponse) {
+        option (google.api.http) = {
+            post: "/auth-service/grpc/Codes/TryCode",
+            body: "*",
+        };
+    }
+}
+
+message SendCodeRequest {
+    oneof credentials {
+        string phone = 1;
+        string email = 2;
+    }
+}
+
+message SendCodeResponse {
+    int64 expires_at = 1;
+    bool existed = 2;
+}
+
+message TryCodeRequest {
+    string credentials = 1;
+    int32 code = 2;
+}
+
+message TryCodeResponse {
+    oneof status {
+        Success success = 1;
+        CodeNotExists code_not_exists = 2;
+        InvalidCode invalid_code = 3;
+    }
+
+    message Success {
+    }
+
+    message CodeNotExists {
+    }
+
+    message InvalidCode {
+        int32 attempts = 1;
+    }
+}
