@@ -19,6 +19,12 @@ service Auth {
             body: "*",
         };
     }
+    rpc CheckToken (CheckTokenRequest) returns (CheckTokenResponse) {
+        option (google.api.http) = {
+            post: "/auth-service/grpc/Codes/CheckToken",
+            body: "*",
+        };
+    }
 }
 
 message SendCodeRequest {
@@ -53,5 +59,23 @@ message TryCodeResponse {
 
     message InvalidCode {
         int32 attempts = 1;
+    }
+}
+
+message CheckTokenRequest {
+    string token = 1;
+}
+
+message CheckTokenResponse {
+    oneof status {
+        Success success = 1;
+        Unauthorized unauthorized = 2;
+    }
+
+    message Success {
+        int64 user_id = 1;
+    }
+
+    message Unauthorized {
     }
 }
