@@ -1,0 +1,60 @@
+syntax = "proto3";  
+  
+option go_package = "./gRPC";
+
+service Taxi {  
+    rpc GetCustomerByEmail (EmailMessage) returns (BIOscetch) {}
+    rpc GetDriverByEmail (EmailMessage) returns (BIOscetch) {} 
+    rpc GetCustomerEmail (OrderNumber) returns (EmailMessage) {}
+    rpc GetDriverEmail (OrderNumber) returns (EmailMessage) {}
+    rpc GetTicketInfo (CodeNumber) returns (TicketMessage) {} 
+    rpc CreateCustomer (BIOscetchWithEmail) returns (IndicatorMessage) {}
+    rpc CreateDriver (BIOscetchWithEmail) returns (IndicatorMessage) {}
+    rpc CreateOrder (OrderMessage) returns (IndicatorMessage) {}
+}  
+  
+message EmailMessage {  
+    string email = 1;  
+}
+
+message OrderMessage {
+    float sourcelat = 1;
+    float sourcelng = 2;
+    float destlat = 3;
+    float destlng = 4;
+    float pathlength = 5;
+    string customer = 6;
+    string driver = 7;
+}
+
+message IndicatorMessage {  
+    bool indicator = 1;  
+}
+
+message CodeNumber {  
+    string code = 1;  
+}
+
+message TicketMessage {  
+    string comment = 1;  
+    string tickettype = 2;
+    string responsible = 3;
+    string ticketorder = 4; 
+}
+  
+message BIOscetch {  
+    string firstname = 1;  
+    string lastname = 2;
+    string patronymic = 3;  
+}
+
+message BIOscetchWithEmail {  
+    string firstname = 1;  
+    string lastname = 2;
+    string patronymic = 3;
+    string email = 4; 
+}
+
+message OrderNumber {  
+    string ordernumber = 1;  
+}  
