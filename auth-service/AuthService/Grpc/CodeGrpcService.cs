@@ -50,4 +50,12 @@ public class CodeGrpcService : Auth.AuthBase {
             Success = new TryCodeResponse.Types.Success(),
         };
     }
+
+    public async Task<CheckTokenResponse> CheckToken(CheckTokenRequest request, ServerCallContext context) {
+        return new CheckTokenResponse {
+            Success = new CheckTokenResponse.Types.Success {
+                UserId = 1337,
+            },
+        };
+    }
 }

@@ -6,7 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<ClientsOptions>(builder.Configuration.GetSection("Clients"));
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(setup =>
+    setup.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "Gateway.xml"))
+);
 builder.Services.AddGrpc();
 builder.Services.AddControllers();
 builder.Services.AddClients();
@@ -19,7 +21,5 @@ if (app.Environment.IsDevelopment()) {
 }
 
 app.MapControllers();
-
-app.UseHttpsRedirection();
 
 app.Run();

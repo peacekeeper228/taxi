@@ -12,10 +12,14 @@ public class GrpcAuthServiceClient : IAuthServiceClient {
     }
 
     public async Task<(bool, long)> SendCodeAsync(string? phone, string? email, CancellationToken cancellationToken) {
-        var request = new SendCodeRequest {
-            Phone = phone,
-            Email = email,
-        };
+        var request = new SendCodeRequest();
+
+        if (string.IsNullOrEmpty(phone)) {
+            request.Email = email;
+        }
+        else {
+            request.Phone = phone;
+        }
 
         var response = await _client.SendCodeAsync(request, cancellationToken: cancellationToken);
 

@@ -25,6 +25,4 @@ if (app.Environment.IsDevelopment()) {
 
 app.AddGrpc();
 
-app.UseHttpsRedirection();
-
 app.Run();
