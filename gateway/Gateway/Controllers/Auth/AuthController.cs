@@ -1,6 +1,8 @@
 using System.Net;
 using Gateway.Clients.Auth;
+using Gateway.Clients.DbProvider;
 using Gateway.Controllers.Auth.Responses;
+using Gateway.Controllers.Auth.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gateway.Controllers.Auth;
@@ -8,11 +10,14 @@ namespace Gateway.Controllers.Auth;
 [Route("gateway/[controller]")]
 public class AuthController : Controller {
     private readonly IAuthServiceClient _authServiceClient;
+    private readonly IDbProviderClient _dbProviderClient;
 
     public AuthController(
-        IAuthServiceClient authServiceClient
+        IAuthServiceClient authServiceClient,
+        IDbProviderClient dbProviderClient
     ) {
         _authServiceClient = authServiceClient;
+        _dbProviderClient = dbProviderClient;
     }
 
     /// <summary>
@@ -48,19 +53,23 @@ public class AuthController : Controller {
     }
 
     /// <summary>
-    /// Register providing short-live code
+    /// Register as customer providing short-live code
     /// </summary>
-    /// <param name="credential">Phone or email</param>
-    /// <param name="code">Short-live code received</param>
-    /// <param name="password">Password (optional)</param>
+    /// <param name="request">Request body</param>
     /// <param name="cancellationToken"></param>
     [HttpPost]
-    [Route("register")]
+    [Route("registerascustomer")]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> RegisterAsync(string credential, int code, string? password, CancellationToken cancellationToken) {
-        var (response, attempts) = await _authServiceClient.TryCodeAsync(credential, code, cancellationToken);
+    public async Task<IActionResult> RegisterAsCusotmerAsync(
+        [FromBody] RegisterRequest request,
+        CancellationToken cancellationToken
+    ) {
+        var (response, attempts) = await _authServiceClient.TryCodeAsync(
+            request.Credential,
+            request.Code,
+            cancellationToken);
 
         if (response == AuthResponse.CodeNotExists) {
             return NotFound("Short-live code not exists");
@@ -68,6 +77,56 @@ public class AuthController : Controller {
 
         if (response == AuthResponse.InvalidCode) {
             return BadRequest(attempts);
+        }
+
+        if (!await _dbProviderClient.CreateCustomerAsync(
+            request.Firstname,
+            request.LastName,
+            request.Patronymic,
+            request.Email,
+            cancellationToken
+        )) {
+            return StatusCode(500);
+        }
+
+        return Ok();
+    }
+
+    /// <summary>
+    /// Register as driver providing short-live code
+    /// </summary>
+    /// <param name="request">Request body</param>
+    /// <param name="cancellationToken"></param>
+    [HttpPost]
+    [Route("registerasdriver")]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    public async Task<IActionResult> RegisterAsDriverAsync(
+        [FromBody] RegisterRequest request,
+        CancellationToken cancellationToken
+    ) {
+        var (response, attempts) = await _authServiceClient.TryCodeAsync(
+            request.Credential,
+            request.Code,
+            cancellationToken);
+
+        if (response == AuthResponse.CodeNotExists) {
+            return NotFound("Short-live code not exists");
+        }
+
+        if (response == AuthResponse.InvalidCode) {
+            return BadRequest(attempts);
+        }
+
+        if (!await _dbProviderClient.CreateDriverAsync(
+            request.Firstname,
+            request.LastName,
+            request.Patronymic,
+            request.Email,
+            cancellationToken
+        )) {
+            return StatusCode(500);
         }
 
         return Ok();

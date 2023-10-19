@@ -1,6 +1,7 @@
 syntax = "proto3";  
   
 option go_package = "./gRPC";
+option csharp_namespace = "DbInterface.Proto";
 
 service Taxi {  
     rpc GetCustomerByEmail (EmailMessage) returns (BIOscetch) {}
