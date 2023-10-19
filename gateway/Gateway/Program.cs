@@ -13,6 +13,8 @@ builder.Services.AddGrpc();
 builder.Services.AddControllers();
 builder.Services.AddClients();
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment()) {
@@ -21,5 +23,10 @@ if (app.Environment.IsDevelopment()) {
 }
 
 app.MapControllers();
+
+app.UseCors(options => options
+    .WithOrigins(new string[] { "*", })
+    .AllowAnyHeader()
+    .AllowAnyMethod());
 
 app.Run();
