@@ -1,12 +1,25 @@
 
 a) in which case it is easier to change the implementation algorithm in each of the modules? 
 
-###Method 3. Pipes-and-filters
-Pipes-and-Filters: Since each filter is a self-contained module, the internal algorithm of a filter can be changed without impacting other modules.
+Method 3. Pipes-and-filters
+Since each filter is a self-contained module, the internal algorithm of a filter can be changed without impacting other modules.
+
 b) in which solution it is easier (= seemingly less effort) to change data representation  
+
+Method 1. Abstract Data Types
+The encapsulation of data and operations allows for the internal representation of data to change without affecting the interfaces that other modules interact with.
 
 c) in which solution it is easier to add additional functions to the modules
 
+Method 4. Implicit invocation (event-driven)
+New functions can be added as new event handlers or listeners without modifying existing code, thus maintaining loose coupling between modules.
+
 d) which solution is seemingly more performant?
 
+Method 3. Pipes-and-filters
+This method can provide high performance, especially if filters can process data concurrently
+
 e) if you are asked to implement a similar program, which of the solutions would you reuse?
+
+Method 1. Abstract Data Types
+ADTs are generally the easiest to reuse in different programs since they can be plugged in wherever the data types and operations are applicable.
