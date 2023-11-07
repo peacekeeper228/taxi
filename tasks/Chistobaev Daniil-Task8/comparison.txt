@@ -1,1 +1,12 @@
 
+a) in which case it is easier to change the implementation algorithm in each of the modules? 
+
+###Method 3. Pipes-and-filters
+Pipes-and-Filters: Since each filter is a self-contained module, the internal algorithm of a filter can be changed without impacting other modules.
+b) in which solution it is easier (= seemingly less effort) to change data representation  
+
+c) in which solution it is easier to add additional functions to the modules
+
+d) which solution is seemingly more performant?
+
+e) if you are asked to implement a similar program, which of the solutions would you reuse?
