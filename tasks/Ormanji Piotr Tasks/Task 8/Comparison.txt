@@ -1,0 +1,44 @@
+Было произведено сравнение методов реализации двух поставленнх задач.
+Были рассмотрены все 4 метода.
+
+Исходя из сравнения, были сформулированы ответы на вопросы:
+
+a) in which case it is easier to change the implementation algorithm in each of the modules? 
+
+Method 2. Main/Subroutine with stepwise refinement (also Shared Data)
+В этом методе изменение реализации является достаточно простым, тк каждый элемент программы является подпрограммой.
+
+Method 3. Pipes-and-filters
+
+В этом методе изменение реализации является достаточно простым, тк каждый модуль является независимым и заменяемым.
+
+b) in which solution it is easier (= seemingly less effort) to change data representation
+
+Method 2. Main/Subroutine with stepwise refinement (also Shared Data)
+
+Изменение представления данных может потребовать изменений в основной программе, так как она может зависеть от структуры данных. 
+Однако, если основная программа хорошо структурирована, изменения могут будет легко внести. 
+
+ c) in which solution it is easier to add additional functions to the modules
+
+ Method 2. Main/Subroutine with stepwise refinement (also Shared Data)
+
+ В этом методе добавление функциональности является достаточно простым, тк программа поделена на модули, 
+ достаточно добавить в нужный модуль новую функциональность или вовсе добавить функциональность как новую подпрограмму.
+
+ d) which solution is seemingly more performant?
+    
+ Method 2. Main/Subroutine with stepwise refinement (also Shared Data)
+ Более эффективным считается гибкое решение, поэтому выбор выпадает на 2 метод:
+ Method 2. Main/Subroutine with stepwise refinement (also Shared Data)
+
+ e) if you are asked to implement a similar program, which of the solutions would you reuse?
+ 
+ Method 2. Main/Subroutine with stepwise refinement (also Shared Data)
+
+
+
+
+
+
+
